@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=, initial-scale=1.0">
+    <title>vue实例模版</title>
+    <script src="https://unpkg.com/vue@3"></script>
+</head>
+<body>
+    <div id="app">
+        <h1>全体目光向我看齐，我是直接写在body里面的模板！</h1>
+    </div>
+</body>
+</html>
+<script type="text/x-template" id="temp">
+    <h1>我是在x-template中的定义模版</x-template></h1>
+</script>
+
+
+
+<script>
+    //创建一个vue实例
+    const appConn=Vue.createApp({
+        //vue代码书写的区域
+        // template:'<h1>我是写在vue实例中的模版，我将把原有div中的内容替换掉！</h1>'
+        template:'#temp'
+    }).mount("#app")
+</script>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>基础语法 差值表达式、date、methods、computed和watch</title>
+    <script src="https://unpkg.com/vue@3"></script>
+</head>
+<body>
+    <div id="app">
+        <h1>知识点1：差值表达式</h1>
+            <p>我是变量:{{msg}}</p>
+            <p>我是表达式：{{24-12}}</p>
+            <p>我是表达式：{{num+1}}</p>
+            <p>我是条件运算符：{{1+1==2?'true':false}}</p>
+            <p>我是方法：{{add( )}}</p>
+        <h1>知识点2：data</h1>
+            <h3>在控制台中可以通过实例名.$data的形式来访问或覆盖data数据.</h3>
+        <h1>知识点2：methods</h1>
+            <h3>方法名(){}  或方法名：    function(){}    </h3>
+            <p>{{sub(100)}}</p>
+        <h1>知识点4:computed 计算属性</h1>
+            <h3>遇到复杂的逻辑时，vue.js框架提倡使用computed计算属性。在一个计算属性里面可以
+                完成各种复杂的逻辑，包括运算或函数调用等，最终只要返回一个结果就可以了。
+            </h3>
+            <p>{{rev}}</p>
+            <p>{{double}}</p>
+            <p>{{revMethod()}}</p>
+            <h3>计算属性是基于其依赖值进行缓存的，计算属性只有在它相关依赖发生改变时才会重新求值，
+                而方法则是在每次页面进行重新渲染时都会进行计算
+            </h3>
+            <h3>计算属性通常是只读的，不能进行修改</h3>
+            <button @click="double=100">我们来尝试修改一下double</button>
+            <h3>通过传入一个包含get和set函数的对象，可以得到一个可读可写的计算属性
+                绝大数情况下，只会使用默认的get函数来读取一个计算属性，在实际业务中很少使用到set，
+                所以我们通常在使用计算属性是，不必将get和set都申明
+            </h3>
+        <h1>知识点5：watch 侦听器</h1>
+            <h3>当我们需要再状态变化时，执行一些其他的操作，watch具有监听功能
+                只要监听到当前vue实例中的数据变化，就会调用当前数据绑定的方法。
+            </h3>
+            <h4>1.函数侦听器：在wacth选项中声明的函数即为函数式侦听器。其中函数名就是我们要侦听的对象</h4>
+            <!--在后台输入appConn.$data.grade=100 或 50 来验证侦听效果-->
+            <h4>2.对象侦听器：在watch选项中声明的对象即为对象侦听器。其中对象名就是我们要侦听的对象</h4>
+            <!-- 在后台输入appConn.$data.user.age=141 k来验证侦听器效果-->
+            <h4>对象侦听器中还有俩个参数，deep（true：深层次侦听子对象），immediate（true：不管对象有没有改变，都先执行一遍）</h4>
+            <h4>如果监听的需求比较简单，也不会涉及日后的拓展问题，可以使用函数式侦听器
+                如果监听的需求比较复杂，比如有多层对象，或者需要立即执行，或者方便日后拓展，就使用对象式监听器
+            </h4>
+    </div>
+</body>
+</html>
+<script>
+    const appConn = Vue.createApp({
+        //vue的数据区域
+        data(){
+            return{
+                msg:'我的第一次vue页面!!',
+                num:1,
+                grade:60,
+                users:{
+                    name:'ray',
+                    age:'121'
+                }
+            }
+        },
+        //vue的方法放置的区域
+        methods:{
+            add(){
+               return this.num+100 
+            },
+            sub:function(val){
+                return this.num-val
+            },
+            revMethod(){
+                console.log("我是方法，我被调用了一次")
+                return this.msg.split('').reverse().join('')
+            }
+        },
+        //vue的计算属性区域
+        computed:{
+            rev(){
+                console.log("我是计算属性，我被调用了一次")
+                return this.msg.split('').reverse().join('')
+            },
+            // double(){
+            //     return this.num*2
+            // }
+            double:{
+                get:function(){
+                    return this.num*2
+                },
+                set:function(val){
+                    this.num=val/2
+                }
+            }
+        },
+        //vue的侦听区域
+        watch:{
+            //函数式侦听器
+            grade(newData,oldData){
+                console.log('更新前的数据'+oldData);
+                console.log('更新后的数据'+newData);
+                if(newData>oldData)
+                    console.log("有进步，不错！")
+                else
+                    console.log("你看看，你看看，你看看!")
+            },
+            //对象式侦听器
+            'user.age':{
+                handler(newData,oldData){
+                    console.log('更新前的数据'+oldData)
+                    console.log('更新后的数据'+newData)
+                    if(newData>120||newData<0)
+                        console.log("你确定自己是人吗？？")
+                }
+            }
+
+        }
+    }).mount('#app')
+</script>

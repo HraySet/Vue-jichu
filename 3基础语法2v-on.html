@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>基础语法2 v-on事件绑定</title>
+    <script src="https://unpkg.com/vue@3"></script>
+</head>
+<body>
+    <div id="app">
+        <h1>知识点1：v-on指令：鼠标单击事件</h1>
+            <p>我已经被你点了{{num}}次了</p>
+            <button v-on:click="num++">才不希望你点我呢</button>
+            <button v-on:click="num--">不理你了，笨蛋</button>
+            <h3>许多事处理逻辑会更加复杂，所以在复杂的逻辑下，直接把代码写在v-on指令中是不合适的，
+                因此，v-on可以接受一个需要调用的方法名称
+            </h3>
+            <button v-on:click="log()">打印消息</button>
+            <button v-on:click="log('我是参数')">打印带函数的消息</button>
+            <h3>v-on:click 可以简写成@click</h3>
+            <button @click="log('马上下班了，好开心啊！')">简写形式打印消息</button>
+    </div>
+    
+</body>
+</html>
+
+<script>
+    const appConn = Vue.createApp({
+        data() {
+            return {
+                num:0,
+            }
+        },
+        methods: {
+            log(val){
+                console.log(val||'你怎么能这样！')
+            }
+        },
+    }).mount("#app")
+</script>
